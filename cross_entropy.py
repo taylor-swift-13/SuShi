@@ -16,6 +16,22 @@ def cross_entropy(logits, targets, reduction='mean'):
         reduction='sum'  -> scalar
         reduction='none' -> shape (batch_size,)
     """
+    # 假设 `batch_size=2, num_classes=3`：
+    # ```
+    # logits  = [[2.0, 1.0, 0.1],    targets = [0, 2]
+    #            [0.5, 2.0, 0.3]]
+
+    # → shift 后:  [[0.0, -1.0, -1.9],
+    #              [-1.5, 0.0, -1.7]]
+
+    # → log_softmax: [[-0.41, -1.41, -2.31],
+    #                [-1.87, -0.37, -2.07]]
+
+    # → 取 [0,0] 和 [1,2]:  loss = [0.41, 2.07]
+
+    # → mean:  1.24
+
+
     batch_size = logits.shape[0]
 
     # 1. 数值稳定：减去每行最大值，避免 exp 溢出
