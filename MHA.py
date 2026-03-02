@@ -1,3 +1,7 @@
+import torch
+import torch.nn as nn
+
+
 class Attention(nn.Module):
     def __init__(self, d_model: int, num_heads: int, dropout_rate: float = 0.1):
         super().__init__()
